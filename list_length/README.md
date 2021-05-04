@@ -1,6 +1,6 @@
 # ListLength
 
-**TODO: Add description**
+Implements a recursive function that returns the length of a given list.
 
 ## Installation
 
