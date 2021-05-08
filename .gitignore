@@ -1,1 +1,5 @@
 */.formatter.exs
+*/.elixir_ls
+*/mix.lock
+*/.credo.exs
+.vscode
