@@ -1,7 +1,7 @@
 defmodule ListFilterTest do
   use ExUnit.Case
 
-  describe "call" do
+  describe "call/1" do
     test "empty list" do
       list = []
       expected_result = 0

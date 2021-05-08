@@ -1,7 +1,7 @@
 defmodule ListLengthTest do
   use ExUnit.Case
 
-  describe "call" do
+  describe "call/1" do
     test "returns empty list length" do
       expected_result = 0
       result = ListLength.call([])
