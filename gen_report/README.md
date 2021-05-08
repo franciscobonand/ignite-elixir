@@ -1,8 +1,8 @@
 # GenReport
 
-Implements function that reads employees worked hours data from `.csv` files and generate a report based on them.  
-Each line of the `.csv` files be in the following format:  
-`name,hours_worked,day,month,year`
+Implements function that reads employees worked hours data from `.csv` files and generates a report based on them.  
+Each line of the `.csv` files should be in the following format:  
+`name,hours_worked,day,month,year`  
 Where all the columns but "name" are numbers.
 
 **Be sure that the `.csv` files are inside `/reports` folder. Also, when calling the `build` function to generate the report, there's no need to specify the `.csv` file extension**
