@@ -1,14 +1,13 @@
 defmodule GenReport.ParserTest do
   use ExUnit.Case
-
   alias GenReport.Parser
+
+  @filename "test.csv"
 
   describe "parse_file/1" do
     test "parses valid file" do
-      filename = "test"
-
       response =
-        filename
+        @filename
         |> Parser.parse_file()
         |> Enum.map(& &1)
 
@@ -28,8 +27,17 @@ defmodule GenReport.ParserTest do
       assert response == expected_response
     end
 
+    test "parses the file" do
+      response =
+        @filename
+        |> Parser.parse_file()
+        |> Enum.member?(["daniele", 8, "30", "novembro", "2018"])
+
+      assert response == true
+    end
+
     test "try to parse invalid file" do
-      filename = "nonexistent_file"
+      filename = "nonexistent_file.csv"
 
       response = Parser.parse_file(filename)
 

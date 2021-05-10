@@ -16,7 +16,7 @@ defmodule GenReport.Parser do
 
   @spec parse_file(String.t()) :: Enumerable.t()
   def parse_file(filename) do
-    path = "reports/#{filename}.csv"
+    path = "reports/#{filename}"
 
     case File.stat(path) do
       {:ok, _} ->
