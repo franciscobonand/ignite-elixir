@@ -2,7 +2,7 @@ defmodule GenReport do
   alias GenReport.Parser
 
   # build reads data from a file and generates a report from it
-  @spec build(String.t()) :: list
+  @spec build(String.t()) :: {:error, atom()} | {:ok, map()}
   def build(filename) do
     filename
     |> Parser.parse_file()
@@ -11,10 +11,87 @@ defmodule GenReport do
         {:error, reason}
 
       data ->
-        Enum.reduce(data, report_acc(), fn user, report ->
-          update_report(user, report)
-        end)
+        {:ok,
+         Enum.reduce(data, report_acc(), fn user, report ->
+           update_report(user, report)
+         end)}
     end
+  end
+
+  # build_from_many receives a list of file names (strings) and
+  # returns the merged report of them. Invalid files are just ignored
+  @spec build_from_many(list(String.t())) :: map()
+  def build_from_many(filenames) do
+    filenames
+    |> Task.async_stream(&build/1)
+    |> Enum.filter(fn {:ok, {flag, _}} -> flag != :error end)
+    |> Enum.reduce(
+      report_acc(),
+      fn {:ok, {:ok, result}}, report ->
+        join_reports(report, result)
+      end
+    )
+  end
+
+  # join_reports receives two maps (reports) and merges them. The merged report is returned
+  @spec join_reports(map(), map()) :: map()
+  defp join_reports(report1, report2) do
+    all_hours = merge_maps(report1["all_hours"], report2["all_hours"])
+    hours_per_month = merge_layered_maps(report1["hours_per_month"], report2["hours_per_month"])
+    hours_per_year = merge_layered_maps(report1["hours_per_year"], report2["hours_per_year"])
+
+    build_report(all_hours, hours_per_month, hours_per_year)
+  end
+
+  # merge_maps receives two maps and merges them. If map1 and map2 contain an equal key, that
+  # key's value is the sum of it's value from map1 and map2
+  @spec merge_maps(map(), map()) :: map()
+  defp merge_maps(map1, map2) do
+    Map.merge(map1, map2, fn _key, val1, val2 ->
+      val1 + val2
+    end)
+  end
+
+  # merge_layered_maps receives two maps of maps and merges the submaps
+  @spec merge_layered_maps(map(), map()) :: map()
+  defp merge_layered_maps(map1, map2) do
+    keys = get_maps_keys(map1, map2)
+
+    Enum.reduce(
+      keys,
+      %{},
+      fn key, acc ->
+        merged_submap =
+          case check_key_existence(key, map1, map2) do
+            {true, true} -> merge_maps(map1[key], map2[key])
+            {false, false} -> nil
+            {_, false} -> map1[key]
+            {false, _} -> map2[key]
+          end
+
+        Map.put(acc, key, merged_submap)
+      end
+    )
+  end
+
+  # check_key_existence receives a key and two maps, and returns a tuple of
+  # bool that indicates if each map contain the key
+  @spec check_key_existence(String.t(), map(), map()) :: {boolean(), boolean()}
+  defp check_key_existence(key, map1, map2) do
+    {Map.has_key?(map1, key), Map.has_key?(map2, key)}
+  end
+
+  # get_maps_keys receives two maps an returns a list of the maps' keys
+  @spec get_maps_keys(map(), map()) :: list()
+  defp get_maps_keys(map1, map2) do
+    map1_keys =
+      Map.keys(map1)
+      |> MapSet.new()
+
+    Map.keys(map2)
+    |> MapSet.new()
+    |> MapSet.union(map1_keys)
+    |> MapSet.to_list()
   end
 
   # update_report receives a list containing a person's data and a map (the report).
