@@ -23,7 +23,6 @@ defmodule ExliveryTest.Users.UserTest do
 
     test "when there are invalid params, returns an error" do
       response =
-        response =
         User.build(
           "chico jr.",
           "rua das bananeiras",
