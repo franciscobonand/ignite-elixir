@@ -1,0 +1,19 @@
+defmodule Exlivery.Users.User do
+  @keys [:name, :address, :email, :cpf, :age]
+  @enforce_keys @keys
+
+  defstruct @keys
+
+  def build(name, address, email, cpf, age) when age >= 18 and is_bitstring(cpf) do
+    {:ok,
+      %__MODULE__{
+        name: name,
+        address: address,
+        email: email,
+        cpf: cpf,
+        age: age
+    }}
+  end
+
+  def build(_n, _ad, _e, _c, _ag), do: {:error, "Invalid parameters"}
+end
