@@ -7,7 +7,7 @@ defmodule Flightex.Bookings.Agent do
     Agent.start_link(fn -> %{} end, name: __MODULE__)
   end
 
-  def save(booking) do
+  def save(%Booking{} = booking) do
     Agent.update(__MODULE__, &update_state(&1, booking))
 
     {:ok, booking.id}
@@ -17,7 +17,7 @@ defmodule Flightex.Bookings.Agent do
 
   defp get_booking(state, id) do
     case Map.get(state, id) do
-      nil -> {:error, "Booking not found"}
+      nil -> {:error, "Flight Booking not found"}
       booking -> {:ok, booking}
     end
   end
