@@ -9,11 +9,19 @@ defmodule Flightex do
     BookingAgent.start_link(%{})
   end
 
-  defdelegate create_or_update_user(params),
+  defdelegate create_user(params),
     to: CorUUsers,
     as: :call
 
-  defdelegate create_or_update_booking(params),
+  defdelegate get_user(id),
+    to: UserAgent,
+    as: :get
+
+  defdelegate create_booking(uid, params),
     to: CorUBookings,
     as: :call
+
+  defdelegate get_booking(booking_id),
+    to: BookingAgent,
+    as: :get
 end
