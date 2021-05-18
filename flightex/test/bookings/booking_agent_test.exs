@@ -12,7 +12,7 @@ defmodule Flightex.Bookings.AgentTest do
       :ok
     end
 
-    test "when the param are valid, return a booking uuid" do
+    test "when the params are valid, return a booking uuid" do
       response =
         :booking
         |> build()
@@ -61,3 +61,4 @@ defmodule Flightex.Bookings.AgentTest do
       assert response == expected_response
     end
   end
+end
