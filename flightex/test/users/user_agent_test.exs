@@ -15,7 +15,7 @@ defmodule Flightex.Users.AgentTest do
       {:ok, id: id, cpf: cpf}
     end
 
-    test "when the user is saves, returns an tuple", %{id: id, cpf: cpf} do
+    test "when the user is saved, returns a tuple", %{id: id, cpf: cpf} do
       :users
       |> build(id: id, cpf: cpf)
       |> UserAgent.save()
