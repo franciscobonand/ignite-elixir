@@ -3,3 +3,5 @@
 */mix.lock
 */.credo.exs
 .vscode
+.env
+.misc
