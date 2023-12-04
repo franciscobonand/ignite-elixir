@@ -4,14 +4,15 @@ This is the repository for my resolutions of [Rocketseat's](https://rocketseat.c
 
 - [Official docs](https://hexdocs.pm/elixir)
 - Command `iex` starts elixir interactively
+    - `iex -S mix` to run with locally defined modules
 - Division:
     - 5 / 2 => 2.5 (float)
     - div(5,2) => 2 (int)
 - String interpolation:
-```
-x = "some"
-y = "#{x}thing"
-```
+    ```
+    x = "some"
+    y = "#{x}thing"
+    ```
 - Modules always start with uppercase letters (e.g. "String")
     - Calling a module function with "h" before it shows help menu
         - `h String.slice`
@@ -61,18 +62,25 @@ y = "#{x}thing"
         - `{:ok, content} = {:ok, "text from a file"}`
             - `content == "text from a file"`
     - It's possible to pin a variable, making it not reassignable
-```
-x = 2   // ok
-x = 3   // ok
-^x = 4  // not ok, MatchError
-^x = 2  // not ok, MatchError
-```
+        ```
+        x = 2   // ok
+        x = 3   // ok
+        ^x = 4  // not ok, MatchError
+        ^x = 2  // not ok, MatchError
+        ```
+
     - Anonymous function with pattern matching:
-```
-    read_file = fn
-        {:ok, content} -> "Success #{content}"
-        {:error, reason} -> "Error #{reason}"
-    end
-    
-    read_file.(File.read("filename"))
-```
+        ```
+            read_file = fn
+                {:ok, content} -> "Success #{content}"
+                {:error, reason} -> "Error #{reason}"
+            end
+            
+            read_file.(File.read("filename"))
+        ```
+- Functions:
+    - Private functions in a module => `defp`
+    - Public functions in a module => `def`
+    - One-line declaration => `def sum([], acc), do: acc`
+    - [Tail Call Optimization](https://efficient-sloth-d85.notion.site/Recursividade-e-Tail-Call-Optimization-79f2a8103b174d6db58d8bea19546c0d)
+    - Functions with `?` return boolean values (`is_even?`)
