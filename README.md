@@ -84,3 +84,12 @@ This is the repository for my resolutions of [Rocketseat's](https://rocketseat.c
     - One-line declaration => `def sum([], acc), do: acc`
     - [Tail Call Optimization](https://efficient-sloth-d85.notion.site/Recursividade-e-Tail-Call-Optimization-79f2a8103b174d6db58d8bea19546c0d)
     - Functions with `?` return boolean values (`is_even?`)
+
+- BEAM Processes
+    - A SO process creates one thread (scheduler) for each available CPU
+    - Each SO thread (scheduler) is responsible for creating many BEAM processes
+    - Create a new process with `spawn <function to be executed>`
+        - `spawn` creates a new process and returns its PID
+        - Module `Process` has many useful features (e.g. `Process.alive?(<pid>)`)
+        - `send <pid>, <msg>` sends a message to the given process
+        - Processes must have a `receive` function defined in order to handle incoming messages
