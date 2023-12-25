@@ -84,7 +84,8 @@ This is the repository for my resolutions of [Rocketseat's](https://rocketseat.c
     - One-line declaration => `def sum([], acc), do: acc`
     - [Tail Call Optimization](https://efficient-sloth-d85.notion.site/Recursividade-e-Tail-Call-Optimization-79f2a8103b174d6db58d8bea19546c0d)
     - Functions with `?` return boolean values (`is_even?`)
-
+- Measuring execution time
+    - `{<time in microsseconds>, <function return>} = :timer.tc(fn -> <function to measure> end)`
 - BEAM Processes
     - A SO process creates one thread (scheduler) for each available CPU
     - Each SO thread (scheduler) is responsible for creating many BEAM processes
