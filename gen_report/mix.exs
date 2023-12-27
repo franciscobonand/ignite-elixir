@@ -4,6 +4,7 @@ defmodule GenReport.MixProject do
   def project do
     [
       app: :gen_report,
+      elixirc_paths: elixirc_paths(Mix.env()),
       version: "0.1.0",
       elixir: "~> 1.15",
       start_permanent: Mix.env() == :prod,
