@@ -15,9 +15,18 @@ defmodule GenReport.Parser do
   }
 
   def parse_file(fname) do
-    fname
-    |> File.stream!()
-    |> Stream.map(fn line -> parse_line(line) end)
+    case File.exists?(fname) do
+      true ->
+        stream =
+          fname
+          |> File.stream!()
+          |> Stream.map(fn line -> parse_line(line) end)
+
+        {:ok, stream}
+
+      false ->
+        {:error, "Arquivo não encontrado"}
+    end
   end
 
   defp parse_line(line) do

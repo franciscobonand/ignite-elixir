@@ -2,14 +2,19 @@ defmodule GenReport do
   alias GenReport.Parser
 
   def build(fname) do
-    fname
-    |> Parser.parse_file()
-    |> Enum.reduce(
-      %{"all_hours" => %{}, "hours_per_month" => %{}, "hours_per_year" => %{}},
-      fn line, report ->
-        sum_values(line, report)
-      end
-    )
+    case Parser.parse_file(fname) do
+      {:ok, stream} ->
+        stream
+        |> Enum.reduce(
+          %{"all_hours" => %{}, "hours_per_month" => %{}, "hours_per_year" => %{}},
+          fn line, report ->
+            sum_values(line, report)
+          end
+        )
+
+      {:error, msg} ->
+        {:error, msg}
+    end
   end
 
   def build() do
